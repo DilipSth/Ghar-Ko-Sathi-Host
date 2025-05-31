@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
-import axios from "axios";
 import { createContext, useState, useContext, useEffect } from "react";
 import config from "../config/api";
+import axiosInstance from "../config/axios";
 
 // Create a context
 const userContext = createContext();
@@ -20,11 +20,7 @@ const AuthContext = ({ children }) => {
         const token = localStorage.getItem("token");
 
         if (token) {
-          const response = await axios.get(config.endpoints.auth.verify, {
-            headers: {
-              Authorization: `Bearer ${token}`, // Set Authorization header
-            },
-          });
+          const response = await axiosInstance.get(config.endpoints.auth.verify);
 
           if (response.data?.success && isMounted) {
             setUser(response.data.user); // Update user state
