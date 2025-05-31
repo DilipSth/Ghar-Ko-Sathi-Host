@@ -5,7 +5,8 @@
       "src": "package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "dist"
+        "distDir": "dist",
+        "buildCommand": "npm run build"
       }
     }
   ],
@@ -23,6 +24,16 @@
         "content-type": "application/javascript"
       },
       "continue": true
+    },
+    {
+      "src": "/(.*\\.css)",
+      "headers": {
+        "content-type": "text/css"
+      },
+      "continue": true
+    },
+    {
+      "handle": "filesystem"
     },
     {
       "src": "/(.*)",
