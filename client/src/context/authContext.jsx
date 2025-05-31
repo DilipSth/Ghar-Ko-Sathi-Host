@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import axios from "axios";
 import { createContext, useState, useContext, useEffect } from "react";
+import config from "../config/api";
 
 // Create a context
 const userContext = createContext();
@@ -19,7 +20,7 @@ const AuthContext = ({ children }) => {
         const token = localStorage.getItem("token");
 
         if (token) {
-          const response = await axios.get("http://localhost:8000/api/auth/verify", {
+          const response = await axios.get(config.endpoints.auth.verify, {
             headers: {
               Authorization: `Bearer ${token}`, // Set Authorization header
             },
@@ -67,14 +68,23 @@ const AuthContext = ({ children }) => {
   };
 
   return (
-    <userContext.Provider value={{ user, login, logout, loading, isPendingApproval }}>
+    <userContext.Provider
+      value={{
+        user,
+        loading,
+        login,
+        logout,
+        isPendingApproval,
+      }}
+    >
       {children}
     </userContext.Provider>
   );
 };
 
-// Hook to use the authentication context
-export const useAuth = () => useContext(userContext);
+// Custom hook to use the auth context
+export const useAuth = () => {
+  return useContext(userContext);
+};
 
-// Export AuthContext
 export default AuthContext;
