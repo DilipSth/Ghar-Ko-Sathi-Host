@@ -5,6 +5,7 @@ import { useNavigate } from "react-router";
 import { useAuth } from "../../context/authContext";
 import { NavLink } from "react-router-dom";
 import { toast } from "react-toastify"; // Note: You'll need to install react-toastify if not already installed
+import config from "../../config/api";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ const Login = () => {
     
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/auth/login",
+        config.endpoints.auth.login,
         { email, password }
       );
       
